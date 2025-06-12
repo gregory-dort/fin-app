@@ -3,7 +3,8 @@
 # Calling Dependencies
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware # CORS module
-from app.api import users # import your API routers
+from app.api import users # import user creation routes
+from app.api import auth # import auth routes
 
 # Creating FastAPI App
 app = FastAPI()
@@ -24,3 +25,4 @@ app.add_middleware(
 
 # Register routers
 app.include_router(users.router)
+app.include_router(auth.router)

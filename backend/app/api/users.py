@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 from app.db.session import SessionLocal
 from app.models.user import User
 from app.schemas.user import UserCreate, UserOut
+from app.utils.hashing import hash_password
 
 router = APIRouter()
 
@@ -22,11 +23,14 @@ def create_user(user: UserCreate, db: Session = Depends(get_db)):
     if db_user:
         raise HTTPException(status_code=400, detail="Email already registered")
     
+    # Hashing password before saving it to database
+    hashed_pw = hash_password(user.password)
+
     # Create user
     new_user = User(
         username=user.username,
         email=user.email,
-        hashed_password=user.password
+        hashed_password=hashed_pw
     )
     db.add(new_user)
     db.commit()

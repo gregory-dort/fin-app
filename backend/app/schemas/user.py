@@ -17,3 +17,8 @@ class UserOut(BaseModel):
     class Config:
         # Allows SQLAlchemy models to be returned as Pydantic objects
         orm_mode = True
+
+# What the client returns after login
+class UserLogin(BaseModel):
+    email: EmailStr
+    password: str
